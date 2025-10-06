@@ -18,22 +18,7 @@ A clean, reproducible pipeline for multitask regression of stellar atmospheric p
 * **Transparent metrics**: MAE and R² in **physical units** via inverse‑transformed scalers.
 * **Reproducibility**: seeds set; models and scalers saved to disk.
 
-## 🗂️ Repo Structure (suggested)
-
-```
-.
-├── notebooks/
-│   └── StellarRegGAE.ipynb
-├── datasets/                 # place the .npy arrays here (not versioned)
-├── models/                   # trained weights / artifacts
-├── results/                  # figures, diagnostics
-├── README.md
-└── requirements.txt
-```
-
 ## 📦 Data
-
-The experiments expect pre‑generated NumPy tensors in `datasets/`:
 
 * `X_raw_resampled_filtered_train.npy` — continuum‑normalized flux arrays (train)
 * `y_raw_loaded_filtered_train.npy` — labels `[Teff, [Fe/H], log g]` (train)
@@ -54,37 +39,13 @@ keras
 keras-tuner
 matplotlib
 numpy
+gdown
 scipy
 scikit-learn
 tensorflow>=2.12
 ```
 
 Python ≥ 3.9 is recommended. TensorFlow should target your local CUDA/cuDNN stack if using GPU.
-
-## ⚙️ Quickstart
-
-1. **Clone & install**
-
-   ```bash
-   git clone <your-repo-url>.git
-   cd <your-repo>
-   python -m venv .venv && source .venv/bin/activate  # on Windows: .venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
-
-2. **Prepare data**
-
-   ```
-   mkdir -p datasets models results
-   # copy your *.npy files into datasets/
-   ```
-
-3. **Run the notebook**
-
-   ```bash
-   jupyter lab  # or: jupyter notebook
-   # open notebooks/StellarRegGAE.ipynb and run all cells
-   ```
 
 ## 🧪 Model & Training Overview
 
@@ -106,37 +67,12 @@ The notebook includes:
 
 If you want to export images to the repo, save figures into `results/` (git‑tracked).
 
-## 🔁 Reproducibility
-
-* Fixed seeds via `random`, `numpy`, and TensorFlow.
-* Label scalers persisted with `joblib`.
-* Strict separation of train/test splits with optional duplicate checks at the **label** level.
-
 ## 🧩 Extending
 
 * Swap in different augmentations (telluric masks, stronger continuum ripple).
 * Add physics‑inspired priors or wavelength‑attention masks per parameter.
 * Try Conv1D or spectral transformers for local pattern sensitivity.
 * Convert to TF SavedModel / ONNX for deployment.
-
-## 📜 Citation
-
-If you use this repository in academic work, please cite the survey/data releases you rely on (e.g., SDSS/BOSS) and acknowledge Keras/TensorFlow, scikit‑learn, and SciPy.
-
-## 📄 License
-
-MIT — feel free to adapt to your needs. If you require a different license, update this section.
-
----
-
-**FAQ**
-
-**Q: Where do I put my spectra if I don’t have the provided `.npy` files?**
-A: Add a small preprocessing script that reads FITS → resamples to the notebook’s grid → normalizes → saves `.npy` arrays in `datasets/`. Wire the paths in the first cells.
-
-**Q: Can I run without GPU?**
-A: Yes. The network is compact; CPU training will be slower but feasible for small experiments.
-
 **Q: How do I reproduce the exact hyper‑parameters?**
 A: The notebook seeds and search spaces are fixed; the best config is saved via `ModelCheckpoint` and can be reloaded from `models/`.
 
