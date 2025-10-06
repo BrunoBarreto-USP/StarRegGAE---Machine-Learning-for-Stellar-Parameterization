@@ -54,7 +54,7 @@ Python ≥ 3.9 is recommended. TensorFlow should target your local CUDA/cuDNN st
 * **Loss**: per‑task **MSE** (sum across heads); report **MAE** and **R²**.
 * **Tuning**: Keras Tuner (BayesianOptimization) over widths, depth, dropout, L2, learning rate, etc.
 * **Callbacks**: EarlyStopping, ReduceLROnPlateau, ModelCheckpoint (best by val loss).
-* **Saved artifacts**: model (`models/stellar_regression_model.keras`), scalers (`joblib`), metrics and plots to `results/`.
+* **Saved artifacts**: model (`stellar_regression_model.keras`).
 
 ## 📈 Results & Diagnostics
 
@@ -63,9 +63,6 @@ The notebook includes:
 * Distribution plots for labels and quality filters.
 * Train/validation curves and per‑task MAE histories.
 * Predicted vs. true scatter with 1:1 reference.
-* Error histograms/densities (kde) and summary tables.
-
-If you want to export images to the repo, save figures into `results/` (git‑tracked).
 
 ## 🧩 Extending
 
